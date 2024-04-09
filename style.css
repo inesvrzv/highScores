@@ -37,12 +37,7 @@ h1 {
   margin: 0.5em 0; /* Increase space between lines */
 }
 
-#high-scores li::before {
-  content: counter(high-score-counter) "."; /* Add the line number */
-  margin-right: 0.5em; /* Space between the number and name */
-  min-width: 2em; /* Ensure the numbers align even with different digits */
-  text-align: right; /* Align the numbers to the right */
-}
+
 
 /* Team colors */
 .high-score-team1 { color: #2468ea; }
