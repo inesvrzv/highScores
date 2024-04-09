@@ -58,3 +58,4 @@ function updateHighScoresUI(scores) {
         scoresList.innerHTML = '<li>No high scores yet!</li>';
     }
 }
+
