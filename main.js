@@ -25,21 +25,36 @@ async function loadAndDisplayHighScores() {
 
 function updateHighScoresUI(scores) {
     const scoresList = document.getElementById('high-scores');
+    if (!scoresList) {
+        console.error('High scores list element not found.');
+        return;
+    }
     scoresList.innerHTML = ''; // Clear current scores
 
-    // Check if there are any scores to display
-    if (scores.length === 0) {
+    // Create a map to track the highest score for each player
+    const highestScoresMap = scores.reduce((acc, score) => {
+        if (!acc[score.name] || acc[score.name].score < score.score) {
+            acc[score.name] = score;
+        }
+        return acc;
+    }, {});
+
+    // Convert the map to an array of scores
+    const highestScores = Object.values(highestScoresMap);
+
+    // Sort the scores in descending order
+    highestScores.sort((a, b) => b.score - a.score);
+
+    // Display the sorted, highest scores
+    highestScores.forEach((score, index) => {
+        const rank = index + 1; // Calculate rank based on array position
+        const listItem = document.createElement('li');
+        listItem.textContent = `${rank}. ${score.name}: ${score.score}`;
+        listItem.className = `high-score-${score.team}`; // Apply color based on team
+        scoresList.appendChild(listItem);
+    });
+
+    if (highestScores.length === 0) {
         scoresList.innerHTML = '<li>No high scores yet!</li>';
-    } else {
-        // Iterate through the scores and append them to the list
-        scores.forEach((score) => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${score.name}: ${score.score}`;
-            
-            // Optionally, add a class based on the team for styling
-            listItem.className = `high-score-${score.team}`;
-            
-            scoresList.appendChild(listItem);
-        });
     }
 }
